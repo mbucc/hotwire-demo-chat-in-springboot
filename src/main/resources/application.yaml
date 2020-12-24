@@ -1,0 +1,5 @@
+spring:
+  jpa:
+    # Let Spring handle schema generation, not Hibernate.
+    hibernate:
+      ddl-auto: none
