@@ -6,12 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/messages/new")
+@RequestMapping("/rooms/{roomId}/messages/new")
 public class MessageController {
 
   private final MessageRepository messageRepository;
@@ -25,17 +26,22 @@ public class MessageController {
   }
 
   @GetMapping
-  public ModelAndView handleGet() {
-    return new ModelAndView("messages.new");
+  public ModelAndView handleGet(@PathVariable("roomId") Long roomId) {
+    ModelAndView y = new ModelAndView("messages.new");
+    y.addObject("roomId", roomId);
+    return y;
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-  public ModelAndView handlePost(FormData formData) {
+  public ModelAndView handlePost(
+      @PathVariable("roomId") Long roomId,
+      FormData formData
+  ) {
     long now = this.clock.millis();
     messageRepository.save(
         new Message(
             null,
-            formData.getRoomId(),
+            roomId,
             formData.getContent(),
             now,
             now));
@@ -46,7 +52,6 @@ public class MessageController {
   static
   class FormData {
     private String content;
-    private Long roomId;
   }
 
 }

@@ -1,10 +1,14 @@
 <h1>New Message</h1>
 
 <form action="/messages/create">
-  <label for="content">Content:</label><br>
-  <input type="text" id="content" name="content" value=""><br>
-
-  <input type="hidden" id="roomId" name="roomId"
-      value="{{#roomId}}{{roomId}}{{/roomId}}" />
-  <input type="submit" value="Send" />
+  <label for="content">Content:</label><br> <input type="text"
+    id="content"
+    name="content"
+    value=""><br> <input type="submit"
+    value="Send"/> <input type="hidden"
+    id="roomId"
+    name="roomId"
+    value="{{roomId}}"/>
 </form>
+
+<a href="/rooms/{{roomId}}">Back</a>

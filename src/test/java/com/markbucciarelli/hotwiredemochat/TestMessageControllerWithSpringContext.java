@@ -29,12 +29,14 @@ class TestMessageControllerWithSpringContext {
   @Test
   void testFormGet() throws Exception {
     this.mockMvc
-        .perform(get("/messages/new"))
+        .perform(get("/rooms/1/messages/new"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("New Message")))
         .andExpect(content().string(containsString("Content:")))
-        .andExpect(content().string(containsString("Send")));
+        .andExpect(content().string(containsString("Send")))
+        .andExpect(content().string(containsString("Back")));
+
   }
 
   @Test
@@ -42,10 +44,9 @@ class TestMessageControllerWithSpringContext {
   void testFormPostReturnsCreated() throws Exception {
     this.mockMvc
         .perform(
-            post("/messages/new")
+            post("/rooms/1/messages/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .param("content", "a test message")
-                .param("roomId", "1"))
+                .param("content", "a test message"))
         .andExpect(status().isCreated());
   }
 }

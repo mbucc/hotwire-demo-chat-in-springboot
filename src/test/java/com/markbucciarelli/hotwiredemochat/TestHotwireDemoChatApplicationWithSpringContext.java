@@ -24,13 +24,15 @@ class TestHotwireDemoChatApplicationWithSpringContext {
   MessageRepository messageRepository;
 
   @Test
-  @SuppressWarnings("java:S2699")  // Tell SonarLint there is no need for an assert.
+  @SuppressWarnings("java:S2699")
+    // Tell SonarLint there is no need for an assert.
   void contextLoads() {
   }
 
   @Test
   @Sql({TEST_SCHEMA})
-  @SuppressWarnings("java:S2699")  // Tell SonarLint there is no need for an assert.
+  @SuppressWarnings("java:S2699")
+    // Tell SonarLint there is no need for an assert.
   void testH2Schema() {
   }
 

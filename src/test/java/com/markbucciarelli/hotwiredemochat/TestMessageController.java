@@ -18,17 +18,16 @@ class TestMessageController {
 
   private MessageController messageController;
   private MessageRepository messageRepository;
-  private Clock clock;
 
   @BeforeEach
   void setup() {
     this.messageRepository = mock(MessageRepository.class);
-    this.clock = Clock.fixed(
+    Clock clock = Clock.fixed(
         Instant.ofEpochMilli(clockTime),
         ZoneId.of("US/Eastern"));
     this.messageController = new MessageController(
         this.messageRepository,
-        this.clock
+        clock
     );
   }
 
@@ -47,9 +46,8 @@ class TestMessageController {
 
     FormData formData = new FormData();
     formData.setContent(msg);
-    formData.setRoomId(roomId);
 
-    this.messageController.handlePost(formData);
+    this.messageController.handlePost(roomId, formData);
 
     verify(this.messageRepository).save(expected);
 
