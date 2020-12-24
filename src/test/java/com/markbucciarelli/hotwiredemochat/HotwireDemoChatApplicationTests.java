@@ -20,6 +20,9 @@ class HotwireDemoChatApplicationTests {
   @Autowired
   RoomRepository roomRepository;
 
+  @Autowired
+  MessageRepository messageRepository;
+
   @Test
   // No need for an assert---if the context doesn't load this test fails.
   @SuppressWarnings("java:S2699")
@@ -35,7 +38,7 @@ class HotwireDemoChatApplicationTests {
 
   @Test
   @Sql({TEST_SCHEMA, TEST_DATA})
-  void testReadData() {
+  void testReadRoomData() {
 
     Iterable<Room> ys = this.roomRepository.findAll();
     assertNotNull(ys);
@@ -48,6 +51,27 @@ class HotwireDemoChatApplicationTests {
     assertEquals("one", y.getName());
     assertEquals(1608822796123L, y.getCreatedAt());
     assertEquals(1608822796123L, y.getUpdatedAt());
+
+    assertFalse(i.hasNext());
+
+  }
+
+  @Test
+  @Sql({TEST_SCHEMA, TEST_DATA})
+  void testReadMessagesData() {
+
+    Iterable<Message> ys = this.messageRepository.findAll();
+    assertNotNull(ys);
+    Iterator<Message> i = ys.iterator();
+    assertTrue(i.hasNext());
+
+    Message y = i.next();
+    assertNotNull(y);
+    assertEquals(1, y.getId());
+    assertEquals(1, y.getRoomId());
+    assertEquals("first post", y.getContent());
+    assertEquals(1608822796456L, y.getCreatedAt());
+    assertEquals(1608822796456L, y.getUpdatedAt());
 
     assertFalse(i.hasNext());
 
