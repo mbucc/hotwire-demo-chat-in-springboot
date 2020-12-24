@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.markbucciarelli</groupId>
 	<artifactId>hotwire-demo-chat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>hotwire-demo-chat</name>
 	<description>Java implementation of Hotwire chat demo</description>
 
