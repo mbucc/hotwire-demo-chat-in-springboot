@@ -18,7 +18,7 @@ import lombok.Value;
 public class Message {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
   Long roomId;

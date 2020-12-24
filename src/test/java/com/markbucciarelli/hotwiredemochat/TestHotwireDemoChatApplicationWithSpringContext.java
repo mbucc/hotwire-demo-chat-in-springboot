@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
-class HotwireDemoChatApplicationTests {
+class TestHotwireDemoChatApplicationWithSpringContext {
 
   final static String TEST_SCHEMA = "/test-schema-h2.sql";
   final static String TEST_DATA = "/test-data-h2.sql";
@@ -24,15 +24,13 @@ class HotwireDemoChatApplicationTests {
   MessageRepository messageRepository;
 
   @Test
-  // No need for an assert---if the context doesn't load this test fails.
-  @SuppressWarnings("java:S2699")
+  @SuppressWarnings("java:S2699")  // Tell SonarLint there is no need for an assert.
   void contextLoads() {
   }
 
   @Test
   @Sql({TEST_SCHEMA})
-  // No need for an assert---if the SQL schema is invalid, this test fails.
-  @SuppressWarnings("java:S2699")
+  @SuppressWarnings("java:S2699")  // Tell SonarLint there is no need for an assert.
   void testH2Schema() {
   }
 
