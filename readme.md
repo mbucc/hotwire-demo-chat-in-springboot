@@ -1,7 +1,7 @@
-Work in progress
+Convert Hotwire demo (https://hotwire.dev) to SpringBoot
 
-Converting demo video from https://hotwire.dev to SpringBoot.
+Status : done through two minutes of the demo video
 
-Status : done through a minute and a half.
+Next Up: "Turbo"charge the rudimentary chat.
 
-Next Up: controllers and templates for the first, crude, chat app.
+PRs welcome.
