@@ -1,0 +1,15 @@
+<h1>Room {{room.name}}</h1>
+
+{{#notice}}<p id="notice">{{notice}}</p>{{/notice}}
+
+<p>
+  <a href="/rooms">Back</a>
+</p>
+
+<div id="messages">
+  {{#messages}}
+    {{> message}}
+  {{/messages}}
+</div>
+
+<a href="/rooms/{{room.id}}/messages/new">New message</a>

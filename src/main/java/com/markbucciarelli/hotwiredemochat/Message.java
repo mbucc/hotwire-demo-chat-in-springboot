@@ -1,8 +1,5 @@
 package com.markbucciarelli.hotwiredemochat;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +32,8 @@ public class Message {
     this.updatedAt = 0L;
   }
 
-  ZonedDateTime getCreatedAtAsDate(ZoneId tz) {
-    return Instant.ofEpochMilli(this.createdAt).atZone(tz);
+  public String getCreatedAtAsString() {
+    return Room.toShortDateString(this.createdAt);
   }
+
 }

@@ -3,3 +3,9 @@ spring:
     # Let Spring handle schema generation, not Hibernate.
     hibernate:
       ddl-auto: none
+    #show-sql: true
+  datasource:
+    url: jdbc:h2:file:${user.dir}/chat-db.h2;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    username: admin
+    password:
+    driver-class-name: org.h2.Driver

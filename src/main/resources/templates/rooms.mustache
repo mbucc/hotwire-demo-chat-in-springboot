@@ -1,0 +1,11 @@
+<h1>Rooms</h1>
+
+<p>
+  <a href="/rooms/new">New room</a>
+</p>
+
+<ol>
+  {{#rooms}}
+    <li><a href="/rooms/{{id}}">{{name}}</a></li>
+  {{/rooms}}
+</ol>

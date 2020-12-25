@@ -27,7 +27,7 @@ public class MessageController {
 
   @GetMapping
   public ModelAndView handleGet(@PathVariable("roomId") Long roomId) {
-    ModelAndView y = new ModelAndView("messages.new");
+    ModelAndView y = new ModelAndView("message.new");
     y.addObject("roomId", roomId);
     return y;
   }
@@ -45,7 +45,7 @@ public class MessageController {
             formData.getContent(),
             now,
             now));
-    return new ModelAndView("messages.new", HttpStatus.CREATED);
+    return new ModelAndView("message.new", HttpStatus.CREATED);
   }
 
   @Data

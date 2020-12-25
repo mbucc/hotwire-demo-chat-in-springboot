@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TestMessageControllerWithSpringContext {
+class TestRoomControllerWithSpringContext {
 
 
   @Autowired
@@ -28,17 +28,36 @@ class TestMessageControllerWithSpringContext {
 
 
   @Test
-  void testFormGet() throws Exception {
-    String url = "/rooms/1/messages/new";
+  @Sql({TEST_SCHEMA, TEST_DATA1})
+  void testRoomsGet() throws Exception {
     this.mockMvc
-        .perform(get(url))
+        .perform(get("/rooms"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("New Message")))
-        .andExpect(content().string(containsString("Content:")))
-        .andExpect(content().string(containsString("Send")))
-        .andExpect(content().string(containsString("Back")))
-        .andExpect(content().string(containsStringIgnoringCase("action=\"" + url + "\"")))
+        .andExpect(content().string(containsString("New room")))
+        .andExpect(content().string(containsString("href=\"/rooms/1\">one</a>")));
+  }
+
+  @Test
+  @Sql({TEST_SCHEMA, TEST_DATA1})
+  void testRoomOneGet() throws Exception {
+    this.mockMvc
+        .perform(get("/rooms/1"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("<h1>Room one</h1>")))
+        .andExpect(content().string(containsString("<p id=\"1\">")));
+  }
+
+  @Test
+  @Sql({TEST_SCHEMA, TEST_DATA1})
+  void testRoomGetForm() throws Exception {
+    this.mockMvc
+        .perform(get("/rooms/new"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("New Room")))
+        .andExpect(content().string(containsStringIgnoringCase("action=\"/rooms/new\"")))
         .andExpect(content().string(containsStringIgnoringCase("method=\"post\"")));
   }
 
@@ -47,11 +66,13 @@ class TestMessageControllerWithSpringContext {
   void testFormPostReturnsCreated() throws Exception {
     this.mockMvc
         .perform(
-            post("/rooms/1/messages/new")
+            post("/rooms/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .param("content", "a test message"))
+                .param("name", "a second room"))
         .andExpect(status().isCreated());
   }
+
+
 }
 
 

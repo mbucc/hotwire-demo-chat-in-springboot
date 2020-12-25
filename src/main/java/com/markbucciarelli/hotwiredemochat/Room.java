@@ -3,6 +3,7 @@ package com.markbucciarelli.hotwiredemochat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ import lombok.Value;
 public class Room {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
   String name;
@@ -33,7 +34,13 @@ public class Room {
     this.updatedAt = 0L;
   }
 
-  ZonedDateTime getCreatedAtAsDate(ZoneId tz) {
-    return Instant.ofEpochMilli(this.createdAt).atZone(tz);
+  public static String toShortDateString(Long epochMillis) {
+    ZonedDateTime x = Instant.ofEpochMilli(epochMillis).atZone(ZoneId.of("US/Eastern"));
+    return x.format(DateTimeFormatter.ofPattern("MM/dd@HH:mm:ss"));
   }
+
+  public String getCreatedAtAsString() {
+    return Room.toShortDateString(this.createdAt);
+  }
+
 }

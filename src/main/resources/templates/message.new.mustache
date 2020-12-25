@@ -1,6 +1,11 @@
 <h1>New Message</h1>
 
-<form action="/messages/create">
+<p>
+  <a href="/rooms/{{roomId}}">Back</a>
+</p>
+
+<form action="/rooms/{{roomId}}/messages/new"
+    method="post">
   <label for="content">Content:</label><br> <input type="text"
     id="content"
     name="content"
@@ -10,5 +15,3 @@
     name="roomId"
     value="{{roomId}}"/>
 </form>
-
-<a href="/rooms/{{roomId}}">Back</a>
