@@ -17,6 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RoomController {
 
+  public static final String ROOM_LIST_URL = "/rooms";
+  public static final String ROOM_ID_PATH_PARAM = "roomId";
+  public static final String ROOM_DETAIL_URL = "/rooms/{roomId}";
+  public static final String ROOM_NEW_URL = "/rooms/new";
+
+  public static final String ROOM_LIST_VIEW = "rooms";
+  public static final String ROOM_DETAIL_VIEW = "room";
+  public static final String ROOM_NEW_VIEW = "room.new";
+
+
   private final RoomRepository roomRepository;
   private final MessageRepository messageRepository;
   private final Clock clock;
@@ -30,17 +40,17 @@ public class RoomController {
     this.clock = clock;
   }
 
-  @GetMapping("/rooms")
+  @GetMapping(ROOM_LIST_URL)
   public ModelAndView handleGet() {
-    ModelAndView y = new ModelAndView("rooms");
+    ModelAndView y = new ModelAndView(ROOM_LIST_VIEW);
     y.addObject("rooms", roomRepository.findAll());
     return y;
   }
 
 
-  @GetMapping("/rooms/{roomId}")
-  public ModelAndView handleRoomGet(@PathVariable("roomId") Long roomId) {
-    ModelAndView y = new ModelAndView("room");
+  @GetMapping(ROOM_DETAIL_URL)
+  public ModelAndView handleRoomGet(@PathVariable(ROOM_ID_PATH_PARAM) Long roomId) {
+    ModelAndView y = new ModelAndView(ROOM_DETAIL_VIEW);
     Optional<Room> maybeRoom = roomRepository.findById(roomId);
     if (maybeRoom.isPresent()) {
       y.addObject("room", maybeRoom.get());
@@ -51,13 +61,13 @@ public class RoomController {
     return y;
   }
 
-  @GetMapping("/rooms/new")
+  @GetMapping(ROOM_NEW_URL)
   public ModelAndView handleGetNew() {
-    return new ModelAndView("room.new");
+    return new ModelAndView(ROOM_NEW_VIEW);
   }
 
   @PostMapping(
-      path = "/rooms/new",
+      path = ROOM_NEW_URL,
       consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
   public ModelAndView handlePost(RoomFormData formData) {
     long now = this.clock.millis();
@@ -67,7 +77,7 @@ public class RoomController {
             formData.getName(),
             now,
             now));
-    return new ModelAndView("room.new", HttpStatus.CREATED);
+    return new ModelAndView(ROOM_NEW_VIEW, HttpStatus.CREATED);
   }
 
   @Data
