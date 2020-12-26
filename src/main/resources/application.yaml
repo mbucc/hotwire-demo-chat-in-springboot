@@ -1,11 +1,17 @@
 spring:
   jpa:
     # Let Spring handle schema generation, not Hibernate.
+    generate-ddl: false
     hibernate:
       ddl-auto: none
-    #show-sql: true
+    show-sql: true
   datasource:
     url: jdbc:h2:file:${user.dir}/chat-db.h2;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
     username: admin
     password:
     driver-class-name: org.h2.Driver
+    # Define platform so schema-h2.sql is picked up.
+    platform: h2
+    initialization-mode: always
+
+
