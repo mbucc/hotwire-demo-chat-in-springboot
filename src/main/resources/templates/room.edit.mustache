@@ -1,0 +1,18 @@
+{{> head}}
+
+
+<turbo-frame id="room">
+
+  <h1>Editing Room</h1>
+
+  <p>
+    <a href="/rooms/{{room.id}}">Back</a>
+  </p>
+  <form action="/rooms/{{room.id}}/edit"
+      method="post">
+    <label for="content">Name:</label><br> <input type="text" id="name" name="name" value="{{room.name}}"><br> <input type="submit"
+      value="Send"/>
+  </form>
+</turbo-frame>
+
+{{> tail}}

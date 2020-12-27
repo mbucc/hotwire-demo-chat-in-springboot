@@ -1,12 +1,16 @@
 {{> head}}
 
-<h1>Room {{room.name}}</h1>
-
 {{#notice}}<p id="notice">{{notice}}</p>{{/notice}}
 
-<p>
-  <a href="/rooms">Back</a>
-</p>
+
+<turbo-frame id="room">
+  <h1>Room {{room.name}}</h1>
+
+  <p>
+    <a href="/rooms/{{room.id}}/edit">Edit</a>
+    <a href="/rooms" data-turbo-frame="_top">Back</a>
+  </p>
+</turbo-frame>
 
 <div id="messages">
   {{#messages}}

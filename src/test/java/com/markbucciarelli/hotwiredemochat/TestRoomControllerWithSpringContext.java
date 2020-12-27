@@ -4,6 +4,7 @@ import static com.markbucciarelli.hotwiredemochat.TestHotwireDemoChatApplication
 import static com.markbucciarelli.hotwiredemochat.TestHotwireDemoChatApplicationWithSpringContext.TEST_SCHEMA;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -51,7 +52,7 @@ class TestRoomControllerWithSpringContext {
 
   @Test
   @Sql({TEST_SCHEMA, TEST_DATA1})
-  void testRoomGetForm() throws Exception {
+  void testRoomGetNew() throws Exception {
     this.mockMvc
         .perform(get("/rooms/new"))
         .andDo(print())
@@ -63,13 +64,39 @@ class TestRoomControllerWithSpringContext {
 
   @Test
   @Sql({TEST_SCHEMA, TEST_DATA1})
-  void testFormPostReturnsCreated() throws Exception {
+  void testFormPostNew() throws Exception {
     this.mockMvc
         .perform(
             post("/rooms/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .param("name", "a second room"))
         .andExpect(status().isCreated());
+  }
+
+  @Test
+  @Sql({TEST_SCHEMA, TEST_DATA1})
+  void testRoomGetEdit() throws Exception {
+    String nameControlPattern = "(?s).*<input[^>]*name=\"name\"[^>]*value=\"one\"[^>]*>.*";
+    this.mockMvc
+        .perform(get("/rooms/1/edit"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("<h1>Editing Room</h1>")))
+        .andExpect(content().string(containsStringIgnoringCase("action=\"/rooms/1/edit\"")))
+        .andExpect(content().string(containsStringIgnoringCase("method=\"post\"")))
+        .andExpect(content().string(matchesPattern(nameControlPattern)));
+
+  }
+
+  @Test
+  @Sql({TEST_SCHEMA, TEST_DATA1})
+  void testFormPostEdit() throws Exception {
+    this.mockMvc
+        .perform(
+            post("/rooms/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .param("name", "a second room"))
+        .andExpect(status().isFound());
   }
 
 

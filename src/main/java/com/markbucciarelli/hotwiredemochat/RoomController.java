@@ -18,13 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class RoomController {
 
   public static final String ROOM_LIST_URL = "/rooms";
-  public static final String ROOM_ID_PATH_PARAM = "roomId";
-  public static final String ROOM_DETAIL_URL = "/rooms/{roomId}";
   public static final String ROOM_NEW_URL = "/rooms/new";
+  public static final String ROOM_DETAIL_URL = "/rooms/{roomId}";
+  public static final String ROOM_EDIT_URL = "/rooms/{roomId}/edit";
+
+  public static final String ROOM_ID_PATH_PARAM = "roomId";
 
   public static final String ROOM_LIST_VIEW = "rooms";
   public static final String ROOM_DETAIL_VIEW = "room";
   public static final String ROOM_NEW_VIEW = "room.new";
+  public static final String ROOM_EDIT_VIEW = "room.edit";
 
 
   private final RoomRepository roomRepository;
@@ -40,6 +43,13 @@ public class RoomController {
     this.clock = clock;
   }
 
+
+  //----------------------------------------------------------------------------
+  //
+  //                          H A N D L E R S
+  //
+  //----------------------------------------------------------------------------
+
   @GetMapping(ROOM_LIST_URL)
   public ModelAndView handleGet() {
     ModelAndView y = new ModelAndView(ROOM_LIST_VIEW);
@@ -47,18 +57,9 @@ public class RoomController {
     return y;
   }
 
-
   @GetMapping(ROOM_DETAIL_URL)
   public ModelAndView handleRoomGet(@PathVariable(ROOM_ID_PATH_PARAM) Long roomId) {
-    ModelAndView y = new ModelAndView(ROOM_DETAIL_VIEW);
-    Optional<Room> maybeRoom = roomRepository.findById(roomId);
-    if (maybeRoom.isPresent()) {
-      y.addObject("room", maybeRoom.get());
-      y.addObject("messages", messageRepository.findByRoomId(roomId));
-    } else {
-      throw new ResponseStatusException(NOT_FOUND, "Unable to find room ID " + roomId);
-    }
-    return y;
+    return renderRoomView(roomId, ROOM_DETAIL_VIEW);
   }
 
   @GetMapping(ROOM_NEW_URL)
@@ -69,7 +70,7 @@ public class RoomController {
   @PostMapping(
       path = ROOM_NEW_URL,
       consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-  public ModelAndView handlePost(RoomFormData formData) {
+  public ModelAndView handlePostNew(RoomFormData formData) {
     long now = this.clock.millis();
     roomRepository.save(
         new Room(
@@ -79,6 +80,58 @@ public class RoomController {
             now));
     return new ModelAndView(ROOM_NEW_VIEW, HttpStatus.CREATED);
   }
+
+  @GetMapping(ROOM_EDIT_URL)
+  public ModelAndView handleGetEdit(@PathVariable(ROOM_ID_PATH_PARAM) Long roomId) {
+    return renderRoomView(roomId, ROOM_EDIT_VIEW);
+  }
+
+  @PostMapping(ROOM_EDIT_URL)
+  public ModelAndView handlePostEdit(
+      @PathVariable(ROOM_ID_PATH_PARAM) Long roomId,
+      RoomFormData formData
+  ) {
+    Room oldRoom = getRoomOrDie(roomId);
+    Room newRoom = new Room(
+        oldRoom.getId(),
+        formData.getName(),
+        oldRoom.getCreatedAt(),
+        this.clock.millis());
+    this.roomRepository.save(newRoom);
+    return new ModelAndView(redirectToDetail(roomId));
+  }
+
+  //----------------------------------------------------------------------------
+  //
+  //                          U T I L I T Y
+  //
+  //----------------------------------------------------------------------------
+
+
+  private ModelAndView renderRoomView(Long roomId, String viewName) {
+    ModelAndView y = new ModelAndView(viewName);
+    y.addObject("room", getRoomOrDie(roomId));
+    y.addObject("messages", messageRepository.findByRoomId(roomId));
+    return y;
+  }
+
+  private Room getRoomOrDie(Long roomId) {
+    Optional<Room> maybeRoom = roomRepository.findById(roomId);
+    if (maybeRoom.isPresent()) {
+      return maybeRoom.get();
+    } else {
+      throw new ResponseStatusException(NOT_FOUND, "Unable to find room ID " + roomId);
+    }
+
+  }
+
+
+  private String redirectToDetail(Long roomId) {
+    String s0 = "redirect:" + ROOM_DETAIL_URL;
+    String needle = "{" + ROOM_ID_PATH_PARAM + "}";
+    return s0.replace(needle, "" + roomId);
+  }
+
 
   @Data
   static
