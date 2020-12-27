@@ -2,10 +2,10 @@ package com.markbucciarelli.hotwiredemochat;
 
 import static com.markbucciarelli.hotwiredemochat.RoomController.ROOM_DETAIL_URL;
 import static com.markbucciarelli.hotwiredemochat.RoomController.ROOM_ID_PATH_PARAM;
+import static com.markbucciarelli.hotwiredemochat.RoomController.redirectToDetail;
 
 import java.time.Clock;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +39,12 @@ public class MessageController {
 
   @PostMapping(
       path = MESSAGE_NEW_URL,
-      consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+      consumes = {
+          MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+          // When the new message form was put in a frame on the
+          // room detail, clicking the send button posted set the
+          // content type to multipart form data.
+          MediaType.MULTIPART_FORM_DATA_VALUE})
   public ModelAndView handlePost(
       @PathVariable(ROOM_ID_PATH_PARAM) Long roomId,
       FormData formData
@@ -52,7 +57,7 @@ public class MessageController {
             formData.getContent(),
             now,
             now));
-    return new ModelAndView(MESSAGE_NEW_VIEW, HttpStatus.CREATED);
+    return new ModelAndView(redirectToDetail(roomId));
   }
 
   @Data

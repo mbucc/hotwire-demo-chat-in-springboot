@@ -10,7 +10,10 @@
   </p>
   <form action="/rooms/{{room.id}}/edit"
       method="post">
-    <label for="content">Name:</label><br> <input type="text" id="name" name="name" value="{{room.name}}"><br> <input type="submit"
+    <label for="content">Name:</label><br> <input type="text"
+      id="name"
+      name="name"
+      value="{{room.name}}"><br> <input type="submit"
       value="Send"/>
   </form>
 </turbo-frame>

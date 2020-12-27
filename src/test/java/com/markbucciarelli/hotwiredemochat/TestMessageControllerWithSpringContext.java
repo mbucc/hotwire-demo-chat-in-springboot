@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,8 @@ class TestMessageControllerWithSpringContext {
             post("/rooms/1/messages/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .param("content", "a test message"))
-        .andExpect(status().isCreated());
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/rooms/1"));
   }
 }
 

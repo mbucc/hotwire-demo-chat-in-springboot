@@ -74,7 +74,6 @@ class TestRoomController {
     Room expectedNewRoom =
         new Room(1L, formData.getName(), insertTime, clockTime);
 
-
     this.roomController.handlePostEdit(1L, formData);
 
     verify(this.roomRepository).save(expectedNewRoom);

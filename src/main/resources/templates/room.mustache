@@ -7,8 +7,8 @@
   <h1>Room {{room.name}}</h1>
 
   <p>
-    <a href="/rooms/{{room.id}}/edit">Edit</a>
-    <a href="/rooms" data-turbo-frame="_top">Back</a>
+    <a href="/rooms/{{room.id}}/edit">Edit</a> <a href="/rooms"
+      data-turbo-frame="_top">Back</a>
   </p>
 </turbo-frame>
 
@@ -18,6 +18,17 @@
   {{/messages}}
 </div>
 
-<a href="/rooms/{{room.id}}/messages/new">New message</a>
+<!--
+   A "lazy-loaded" frame has a src attribute.
+
+   "Lazy" because the src is not fetched until after the containing page is
+   loaded.
+
+   As with a non-lazy frame, the contents are replaced by the matching frame
+   ID in the fetch result.
+-->
+<turbo-frame id="new_message"
+    src="/rooms/{{room.id}}/messages/new"
+    target="_top"/>
 
 {{> tail}}

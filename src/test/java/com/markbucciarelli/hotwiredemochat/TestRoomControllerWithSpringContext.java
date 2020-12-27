@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -82,7 +83,8 @@ class TestRoomControllerWithSpringContext {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("<h1>Editing Room</h1>")))
-        .andExpect(content().string(containsStringIgnoringCase("action=\"/rooms/1/edit\"")))
+        .andExpect(
+            content().string(containsStringIgnoringCase("action=\"/rooms/1/edit\"")))
         .andExpect(content().string(containsStringIgnoringCase("method=\"post\"")))
         .andExpect(content().string(matchesPattern(nameControlPattern)));
 
@@ -96,7 +98,8 @@ class TestRoomControllerWithSpringContext {
             post("/rooms/1/edit")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .param("name", "a second room"))
-        .andExpect(status().isFound());
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl("/rooms/1"));
   }
 
 

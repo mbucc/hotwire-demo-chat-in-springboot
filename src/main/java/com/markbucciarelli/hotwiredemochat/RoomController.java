@@ -43,12 +43,17 @@ public class RoomController {
     this.clock = clock;
   }
 
-
   //----------------------------------------------------------------------------
   //
   //                          H A N D L E R S
   //
   //----------------------------------------------------------------------------
+
+  static String redirectToDetail(Long roomId) {
+    String s0 = "redirect:" + ROOM_DETAIL_URL;
+    String needle = "{" + ROOM_ID_PATH_PARAM + "}";
+    return s0.replace(needle, "" + roomId);
+  }
 
   @GetMapping(ROOM_LIST_URL)
   public ModelAndView handleGet() {
@@ -86,6 +91,12 @@ public class RoomController {
     return renderRoomView(roomId, ROOM_EDIT_VIEW);
   }
 
+  //----------------------------------------------------------------------------
+  //
+  //                          U T I L I T Y
+  //
+  //----------------------------------------------------------------------------
+
   @PostMapping(ROOM_EDIT_URL)
   public ModelAndView handlePostEdit(
       @PathVariable(ROOM_ID_PATH_PARAM) Long roomId,
@@ -100,13 +111,6 @@ public class RoomController {
     this.roomRepository.save(newRoom);
     return new ModelAndView(redirectToDetail(roomId));
   }
-
-  //----------------------------------------------------------------------------
-  //
-  //                          U T I L I T Y
-  //
-  //----------------------------------------------------------------------------
-
 
   private ModelAndView renderRoomView(Long roomId, String viewName) {
     ModelAndView y = new ModelAndView(viewName);
@@ -124,14 +128,6 @@ public class RoomController {
     }
 
   }
-
-
-  private String redirectToDetail(Long roomId) {
-    String s0 = "redirect:" + ROOM_DETAIL_URL;
-    String needle = "{" + ROOM_ID_PATH_PARAM + "}";
-    return s0.replace(needle, "" + roomId);
-  }
-
 
   @Data
   static
