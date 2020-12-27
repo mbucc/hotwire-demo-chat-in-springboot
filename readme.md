@@ -1,7 +1,7 @@
 Convert Hotwire demo (https://hotwire.dev) to SpringBoot
 
-Status : done through two minutes of the demo video
+Status : done through 3.5 minutes of the demo video
 
-Next Up: "Turbo"charge the rudimentary chat.
+Next Up: Streams
 
 PRs welcome.
