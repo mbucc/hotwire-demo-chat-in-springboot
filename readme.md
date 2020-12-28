@@ -1,8 +1,8 @@
 Convert Hotwire demo (https://hotwire.dev) to SpringBoot
 
-Status : done through 4.75 minutes of the demo video
+Status : done through 5:46 of the demo video
 
-Next Up: Streams
+Next Up: Stimulus
 
 PRs welcome.
 
@@ -62,3 +62,8 @@ append to a DOM element,
 which will not appear slower as
 the message list size grows.
 
+
+### Note: turbo-streams != web sockets
+
+Two different things.  Turbo streams work fine with a standard
+HTTP POST and response.

@@ -48,7 +48,7 @@ class TestRoomControllerWithSpringContext {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("<h1>Room one</h1>")))
-        .andExpect(content().string(containsString("<p id=\"1\">")));
+        .andExpect(content().string(containsString("<p id=\"message-1\">")));
   }
 
   @Test
