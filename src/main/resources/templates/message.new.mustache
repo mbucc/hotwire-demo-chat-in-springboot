@@ -9,17 +9,25 @@
 
 <turbo-frame id="new_message"
     target="_top">
+  <!--
+     See https://stimulus.hotwire.dev/reference/actions.
+
+       turbo:submit-end    = DOM event
+       reset_form          = Stimulus controller identifier
+       reset               = the controller method to invoke
+  -->
   <form action="/rooms/{{roomId}}/messages/new"
-      method="post">
-    <label for="content">Content:</label><br> <input type="text"
-      id="content"
-      name="content"
-      value=""><br> <input type="submit"
-      value="Send"/> <input type="hidden"
-      id="roomId"
-      name="roomId"
-      value="{{roomId}}"/>
-  </form>
+      method="post"
+      data-controller="reset_form"
+      data-action="turbo:submit-end->reset_form#reset">
+  <label for="content">Content:</label><br> <input type="text"
+    id="content"
+    name="content"
+    value=""><br> <input type="submit"
+    value="Send"/> <input type="hidden"
+    id="roomId"
+    name="roomId"
+    value="{{roomId}}"/></form>
 </turbo-frame>
 
 {{> tail}}

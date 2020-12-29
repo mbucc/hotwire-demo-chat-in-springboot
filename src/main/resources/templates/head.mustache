@@ -10,7 +10,20 @@
   <script type="module">
     import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
 
+  </script>
+  <script src="https://unpkg.com/stimulus@2.0.0/dist/stimulus.umd.js"></script>
+  <script>
+    (() => {
+      const application = Stimulus.Application.start()
 
+      application.register(
+        "reset_form",
+        class extends Stimulus.Controller {
+          reset() {
+            this.element.reset();
+          }
+      })
+    })()
 
   </script>
 </head>

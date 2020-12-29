@@ -1,8 +1,8 @@
 Convert Hotwire demo (https://hotwire.dev) to SpringBoot
 
-Status : done through 5:46 of the demo video
+Status : done through 6:40 of the demo video
 
-Next Up: Stimulus
+Next Up: Web Sockets
 
 PRs welcome.
 
