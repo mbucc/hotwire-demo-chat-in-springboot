@@ -7,10 +7,12 @@
   <link rel="stylesheet"
       media="all"
       href="/application.css"/>
-  <script type="module">
-    import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
 
+  <!-- Use Javascript from rails demo to get socket support. -->
+  <script type="module">
+      import {Turbo, cable} from '/turbo-from-rails-demo-as-of-sha1-622bdfeb.js';
   </script>
+
   <script src="https://unpkg.com/stimulus@2.0.0/dist/stimulus.umd.js"></script>
   <script>
     (() => {
