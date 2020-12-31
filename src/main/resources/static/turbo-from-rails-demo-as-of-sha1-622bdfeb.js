@@ -2708,10 +2708,10 @@ var adapters = {
 
 var logger = {
   log(...messages) {
-    if (this.enabled) {
+//    if (this.enabled) {
       messages.push(Date.now());
       adapters.logger.log("[ActionCable]", ...messages);
-    }
+//    }
   }
 };
 
@@ -2723,6 +2723,7 @@ const clamp = (number, min, max) => Math.max(min, Math.min(max, number));
 
 class ConnectionMonitor {
   constructor(connection) {
+    console.log("MKB: ConnectionMonitor.constructor: ENTER");
     this.visibilityDidChange = this.visibilityDidChange.bind(this);
     this.connection = connection;
     this.reconnectAttempts = 0;
@@ -2841,6 +2842,7 @@ const indexOf = [].indexOf;
 
 class Connection {
   constructor(consumer) {
+    console.log("MKB: Connection.constructor: ENTER");
     this.open = this.open.bind(this);
     this.consumer = consumer;
     this.subscriptions = this.consumer.subscriptions;
@@ -2968,6 +2970,8 @@ Connection.prototype.events = {
     }
   },
   open() {
+    console.log("MKB: this=", this);
+    console.log("MKB: this.getProtocol()=", this.getProtocol());
     logger.log(`WebSocket onopen event, using '${this.getProtocol()}' subprotocol`);
     this.disconnected = false;
     if (!this.isProtocolSupported()) {
@@ -3126,8 +3130,10 @@ function createWebSocketURL(url) {
     a.href = url;
     a.href = a.href;
     a.protocol = a.protocol.replace("http", "ws");
+    console.log("MKB: createWebSocketURL, a.href=", a.href);
     return a.href;
   } else {
+    console.log("MKB: createWebSocketURL, url=", url);
     return url;
   }
 }
